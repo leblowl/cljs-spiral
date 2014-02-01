@@ -1,14 +1,15 @@
-# cljsspiral
+# cljs-spiral
 
-A Clojure library designed to ... well, that part is up to you.
+Spiral canvas animation wrapped in a Reagent/React component
 
 ## Usage
 
-FIXME
+lein cljsbuild once
+firefox cljsspiral.html
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Lucas Leblow
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
