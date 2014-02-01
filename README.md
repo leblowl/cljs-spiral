@@ -4,8 +4,10 @@ Spiral canvas animation wrapped in a Reagent/React component
 
 ## Usage
 
+```
 lein cljsbuild once
 firefox cljsspiral.html
+```
 
 ## License
 
