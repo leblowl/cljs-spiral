@@ -5,19 +5,21 @@
 (def pi Math/PI)
 (def two-pi (* 2 pi))
 
-(defn inc-interval [angle from to]
-  (if (== angle to)
-    from
+(defn inc-interval [angle s-angle e-angle]
+  "return next number in an interval between s-angle and e-angle"
+  (if (= angle e-angle)
+    s-angle
     (+ angle (/ pi 216))))
 
 (defn get-radial-pos [[x y] r angle]
-  "get position from center of circle based on radius and angle"
+  "get position based on radius and angle from given x y coordinates"
   (let [xD (Math/round (* r (Math/cos angle)))
         yD (Math/round (* r (Math/sin angle)))]
     [(+ x xD) (+ y yD)]))
 
-(defn plot-outer-circles [s-angle, r, radius] ;could add r parameter here to change radius of all 6
-  (mapv #(hash-map :pos (get-radial-pos [250 250] r %) :radius radius)
+(defn plot-outer-circles [s-angle, r, circle-r]
+  "get positions of 6 circles with radii of circle-r around a circumference"
+  (mapv #(hash-map :pos (get-radial-pos [250 250] r %) :radius circle-r)
         (take 6 (iterate #(+ % (/ two-pi 6)) s-angle))))
 
 (defn draw-circle [ctx [x y] r color]
@@ -35,23 +37,19 @@
     (.getContext canvas "2d")))
 
 (defn render []
-  (let [s-angle       (atom (/ pi 2))
-        e-angle       (atom (/ pi 2))
-        interval      (atom 0)
-        outer-circles (atom (plot-outer-circles (/ pi 2) (* 250 (Math/abs (Math/sin @interval))) 20))
+  (let [interval      (atom 0)
         ctx           (context)]
     (fn []
-      (reset! e-angle (+ @e-angle (/ pi 120)))
       (reset! interval (inc-interval @interval 0 two-pi))
+
       (.clearRect ctx 0 0 500 500)
-      ;(draw-circle ctx [250 250] 40 "#1b4376")
-      (doseq [circle (plot-outer-circles @e-angle (* 230 (Math/abs (Math/sin @interval))) 20)]
+      (doseq [circle (plot-outer-circles @interval (* 230 (Math/abs (Math/sin @interval))) 20)]
         (draw-circle ctx (:pos circle) (:radius circle) "#005A31"))
-      (doseq [circle (plot-outer-circles @e-angle (* 190 (Math/abs (Math/sin @interval))) 15)]
+      (doseq [circle (plot-outer-circles @interval (* 190 (Math/abs (Math/sin @interval))) 15)]
         (draw-circle ctx (:pos circle) (:radius circle) "#A8CD1B"))
-      (doseq [circle (plot-outer-circles @e-angle (* 160 (Math/abs (Math/sin @interval))) 10)]
+      (doseq [circle (plot-outer-circles @interval (* 160 (Math/abs (Math/sin @interval))) 10)]
         (draw-circle ctx (:pos circle) (:radius circle) "#CBE32D"))
-      (doseq [circle (plot-outer-circles @e-angle (* 140 (Math/abs (Math/sin @interval))) 5)]
+      (doseq [circle (plot-outer-circles @interval (* 140 (Math/abs (Math/sin @interval))) 5)]
         (draw-circle ctx (:pos circle) (:radius circle) "#F3FAB6"))
 
       (draw-circle ctx [250 250] 40 "#1b4376")
