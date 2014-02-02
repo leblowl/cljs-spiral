@@ -45,11 +45,11 @@
       (.clearRect ctx 0 0 500 500)
       (doseq [circle (plot-outer-circles @interval (* 230 (Math/abs (Math/sin @interval))) 20)]
         (draw-circle ctx (:pos circle) (:radius circle) "#005A31"))
-      (doseq [circle (plot-outer-circles @interval (* 190 (Math/abs (Math/sin @interval))) 15)]
+      (doseq [circle (plot-outer-circles (+ @interval (/ pi 6)) (* 190 (Math/abs (Math/sin @interval))) 15)]
         (draw-circle ctx (:pos circle) (:radius circle) "#A8CD1B"))
       (doseq [circle (plot-outer-circles @interval (* 160 (Math/abs (Math/sin @interval))) 10)]
         (draw-circle ctx (:pos circle) (:radius circle) "#CBE32D"))
-      (doseq [circle (plot-outer-circles @interval (* 140 (Math/abs (Math/sin @interval))) 5)]
+      (doseq [circle (plot-outer-circles (+ @interval (/ pi 6)) (* 140 (Math/abs (Math/sin @interval))) 5)]
         (draw-circle ctx (:pos circle) (:radius circle) "#F3FAB6"))
 
       (draw-circle ctx [250 250] 40 "#1b4376")
